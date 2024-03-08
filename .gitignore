@@ -1,0 +1,13 @@
+# Arquivos
+session.*
+ido.*
+\#*
+%*%
+*~
+*.dat
+
+# Pastas
+auto-save-list/
+url/
+transient/
+tramp/

@@ -5,9 +5,14 @@ ido.*
 %*%
 *~
 *.dat
+projects
+tramp
+config.el
 
 # Pastas
+elpa/
 auto-save-list/
 url/
 transient/
 tramp/
+eshell/

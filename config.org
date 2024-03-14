@@ -1,0 +1,244 @@
+#+TITLE: Minha Configuração Geral do Emacs
+#+DESCRIPTION: Esse arquivo contém todas minhas configurações para o EMACS
+#+AUTHOR: gabs-coding
+#+STARTUP: showeverything
+
+* Mapa de Conteúdo
+** Personalizações
+*** [[tweaks-interface][Alguns tweaks para aprimorar a interface do EMACS]]
+*** [[Which-Key][Which Key: Mostra uma interface de ajuda para os comandos digitados]]
+*** [[Ace-Window][Navegar por janelas com Ace-Window]]
+*** [[Counsel-Ivy-Swiper][Counsel, Ivy e Swiper para substituir algumas funções do ido-mode]]
+*** [[org-auto-tangle][org-auto-tangle: esse pacote serve para "dar tangle" logo após salvar um arquivo]]
+*** [[eglot][Eglot: pacote para usar o clangd (Language Server Protocol ― LSP) em C-mode e C++-mode]]
+*** [[company][company: pacote para compleção que projeta alternativas possíveis]]
+*** [[yasnippet][yasnippet: pacote de autocompleções]]
+
+<<tweaks-interface>>
+#+begin_src emacs-lisp
+;; Configurações de Interface: 1. tirar a mensagem de início; 2 remover a barra de menu 3 remover a
+;; barra de ferramentas; 4 setar uma fonte e tamanho; 5 compleção de comandos nos menus de pesquisa
+;; 6 mostra o número da linha no canto esquerdo quando está em modo de programação; 7 y ou n, ao in
+;; vés de yes ou no;
+(setq inhibit-startup-screen t)
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(set-frame-font "NK57 Monospace-16")
+(ido-mode 1)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode) 
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+<<Which-Key>>
+#+begin_src emacs-lisp
+(use-package which-key
+  :ensure t 
+  :config
+  (which-key-mode))
+#+end_src
+
+<<auto-complete>>
+#+begin_src emacs-lisp
+;; Ativa a auto compleção globalmente.
+(ac-config-default)
+#+end_src
+
+<<Ace-Window>>
+#+begin_src emacs-lisp
+(use-package ace-window
+:ensure t
+:init
+(progn
+(setq aw-scope 'global) ;; was frame
+(global-set-key (kbd "<C-tab>") 'other-frame)
+  (global-set-key [remap other-window] 'ace-window)
+  (custom-set-faces
+   '(aw-leading-char-face
+     ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+  ))
+#+end_src
+
+<<Counsel-Ivy-Swiper>>
+#+begin_src emacs-lisp
+   (use-package counsel
+:ensure t
+  :bind
+  (("M-y" . counsel-yank-pop)
+   :map ivy-minibuffer-map
+   ("M-y" . ivy-next-line)))
+
+  (use-package ivy
+  :ensure t
+  :diminish (ivy-mode)
+  :bind (("C-x b" . ivy-switch-buffer))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "%d/%d ")
+  (setq ivy-display-style 'fancy))
+
+  (use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper-isearch)
+	 ("C-r" . swiper-isearch)
+	 ("C-c C-r" . ivy-resume)
+	 ("M-x" . counsel-M-x)
+	 ("C-x C-f" . counsel-find-file))
+  :config
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-display-style 'fancy)
+    (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+    ))
+#+end_src
+
+<<org-auto-tangle>>
+#+begin_src emacs-lisp
+(require 'org-auto-tangle)
+(add-hook 'org-mode-hook 'org-auto-tangle-mode)
+#+end_src
+
+<<eglot>>
+#+begin_src emacs-lisp
+;; Pacote eglot serve para automação do clangd (Language Server Protocol ― LSP de C e C++)
+(require 'eglot)
+(add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+#+end_src
+
+<<company>
+#+begin_src emacs-lisp
+;; Habilita o company globalmente.
+(use-package company
+:ensure t
+:config
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 3)
+
+(global-company-mode t)
+)
+#+end_src
+
+<<Flycheck>>
+#+begin_src emacs-lisp
+;; Flycheck é um verificador de sintaxe
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode t))
+#+end_src
+
+<<yasnippet>>
+#+begin_src emacs-lisp
+  ;; O yasnippet é um pacote para adicionar snippets (autocompleções de código).
+(use-package yasnippet
+  :ensure t
+  :init
+  (yas-global-mode 1))
+#+end_src
+
+<<undo-tree>>
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :ensure t
+  :init
+  (global-undo-tree-mode))
+#+end_src
+
+<<tweaks-qol>>
+#+begin_src emacs-lisp
+  ; Highlights the current cursor line
+  (global-hl-line-mode t)
+  
+  ; flashes the cursor's line when you scroll
+  (use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1)
+  ; (setq beacon-color "#666600")
+  )
+  
+  ; deletes all the whitespace when you hit backspace or delete
+  (use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode))
+  
+  (use-package multiple-cursors
+  :ensure t)
+#+end_src
+
+#+begin_src emacs-lisp
+;; Dired
+(setq dired-dwim-target t)
+
+(use-package dired-narrow
+:ensure t
+:config
+(bind-key "C-c C-n" #'dired-narrow)
+(bind-key "C-c C-f" #'dired-narrow-fuzzy)
+(bind-key "C-x C-N" #'dired-narrow-regexp)
+)
+
+(use-package dired-subtree :ensure t
+  :after dired
+  :config
+  (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+  (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package ggtags
+:ensure t
+:config 
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1))))
+)
+#+end_src
+
+#+begin_src emacs-lisp
+;; Ferramentas para PDF's
+(use-package pdf-tools
+:ensure t)
+
+(require 'pdf-tools)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package all-the-icons 
+:ensure t
+:defer 0.5)
+
+(use-package all-the-icons-ivy
+:ensure t
+  :after (all-the-icons ivy)
+  :custom (all-the-icons-ivy-buffer-commands '(ivy-switch-buffer-other-window ivy-switch-buffer))
+  :config
+  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-dired-jump)
+  (add-to-list 'all-the-icons-ivy-file-commands 'counsel-find-library)
+  (all-the-icons-ivy-setup))
+
+
+(use-package all-the-icons-dired
+:ensure t
+)
+#+end_src
+
+<<hooks>>
+#+begin_src emacs-lisp
+;; Vincula o org-bullets-mode (um pacote para deixar os cabeçalhos e listas do org-mode) mais "xerosim".
+(add-hook 'org-mode-hook 'org-bullets-mode)
+;; Ao iniciar o EMACS, certifica que o company esteja ativo globalmente
+(add-hook 'after-init-hook 'global-company-mode)
+;; Quando entra em dired-mode, ativa o all-the-icons-dired-mode
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+;; Atalhos de teclado
+(global-set-key (kbd "M-o") 'ace-window)
+#+end_src

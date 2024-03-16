@@ -1,21 +1,6 @@
 ;;; package -- Summary
 ;;; Commentary: essa é minha (gabs-coding) configuração pessoal
 ;;; Code:
-;; -*- lexical-binding: t; -*-
-
-;; The default is 800 kilobytes.  Measured in bytes.
-(setq gc-cons-threshold (* 50 1000 1000))
-
-;; Profile emacs startup
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "*** Emacs loaded in %s seconds with %d garbage collections."
-                     (emacs-init-time "%.2f")
-                     gcs-done)))
-
-;; Silence compiler warnings as they can be pretty disruptive
-(setq native-comp-async-report-warnings-errors nil)
-
 (require 'package)
 
 (setq package-enable-at-startup nil)
@@ -41,7 +26,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#1c1d20" "#ea3d54" "#78bd65" "#fedd38" "#4fb3d8" "#b978ab" "#4fb3d8" "#cbccd1"])
- '(custom-enabled-themes '(doom-dracula))
+ '(custom-enabled-themes '(deeper-blue))
  '(custom-safe-themes
    '("8c7e832be864674c220f9a9361c851917a93f921fedb7717b1b5ece47690c098" "4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882" "5f128efd37c6a87cd4ad8e8b7f2afaba425425524a68133ac0efd87291d05874" "b754d3a03c34cfba9ad7991380d26984ebd0761925773530e24d8dd8b6894738" "a6920ee8b55c441ada9a19a44e9048be3bfb1338d06fc41bce3819ac22e4b5a1" "3fe1ebb870cc8a28e69763dde7b08c0f6b7e71cc310ffc3394622e5df6e4f0da" "f5f80dd6588e59cfc3ce2f11568ff8296717a938edd448a947f9823a4e282b66" "ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "df6dfd55673f40364b1970440f0b0cb8ba7149282cf415b81aaad2d98b0f0290" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "1a4c54b4fc47ba269ef8a3ff548c8425248857407f9c1ffe32673896fea8ef65" default))
  '(exwm-floating-border-color "#32363b")
@@ -53,7 +38,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(objed-cursor-color "#ea3d54")
  '(package-selected-packages
-   '(all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-bullets org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
+   '(auto-complete all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
  '(pdf-view-midnight-colors (cons "#cbccd1" "#1c1d20"))
  '(red "#ffffff")
  '(rustic-ansi-faces

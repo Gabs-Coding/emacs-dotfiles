@@ -1,4 +1,4 @@
-# Arquivos
+# Arquivos ignorados
 session.*
 ido.*
 \#*
@@ -8,8 +8,10 @@ ido.*
 projects
 tramp
 config.el
+recentf
+.\#*
 
-# Pastas
+# Pastas ignoradas
 elpa/
 auto-save-list/
 url/

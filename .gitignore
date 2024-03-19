@@ -10,6 +10,7 @@ tramp
 config.el
 recentf
 .\#*
+smex-items
 
 # Pastas ignoradas
 elpa/
@@ -18,3 +19,5 @@ url/
 transient/
 tramp/
 eshell/
+.extension/
+.lsp*

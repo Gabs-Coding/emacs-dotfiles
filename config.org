@@ -26,14 +26,17 @@
 <<tweaks-interface>>
 #+begin_src emacs-lisp
   ;; Configurações de Interface: 1. tirar a mensagem de início; 2 remover a barra de menu 3 remover a
-  ;; barra de ferramentas; 4 setar uma fonte e tamanho; 5 compleção de comandos nos menus de pesquisa
-  ;; 6 mostra o número da linha no canto esquerdo quando está em modo de programação; 7 y ou n, ao in
-  ;; vés de yes ou no; 8 maximiza a janela do EMACS ao iniciar;
+  ;; barra de ferramentas; 4 setar uma fonte e tamanho; 5 compleção de comandos nos menus de pesquisa;
+  ;; 6-7
+  ;; 8 mostra o número da linha no canto esquerdo quando está em modo de programação; 9 y ou n, ao in
+  ;; vés de yes ou no; 10 maximiza a janela do EMACS ao iniciar;
   (setq inhibit-startup-screen t)
   (menu-bar-mode 0)
   (tool-bar-mode 0)
-  (set-frame-font "NK57 Monospace-18")
-  (ido-mode 1)
+  (set-frame-font "NK57 Monospace-16")
+  ;; (ido-mode 1) ;; Desativado porque o helm não é compatível com ele
+  ;; (ido-everywhere 1) ;; Mesma parada do de ido-mode acima 
+  
   (add-hook 'prog-mode-hook 'display-line-numbers-mode) 
   (fset 'yes-or-no-p 'y-or-n-p)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -119,7 +122,7 @@
   (use-package eglot
     :ensure t)
   (require 'eglot)
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "ccls"))
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
 #+end_src
@@ -272,9 +275,49 @@
     :init (setq markdown-command "multimarkdown"))
 #+end_src
 
+<<ccls>>
+#+begin_src emacs-lisp
+  (use-package ccls
+    :hook ((c-mode c++-mode) . (lambda () (require 'ccls) (lsp))))
+  (setq ccls-executable "/usr/bin/ccls/")
+  (setq ccls-use-default-rainbow-sem-highlight 'font-lock)
+  (require 'ccls)
+  (setq ccls-executable "/usr/bin/ccls")
+#+end_src
+
+<<lsp-mode>>
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :init
+    (setq lsp-auto-guess-root nil)
+    :hook (c-mode . lsp)
+    (c++-mode . lsp)
+    (lsp-mode . lsp-enable-which-key-integration)
+    :commands lsp)
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+  (require 'dap-lldb)
+#+end_src
+
+<<Smex>>
+#+begin_src emacs-lisp
+  (smex-initialize) ;;
+#+end_src
+
+<<exec-path-from-shell>>
+#+begin_src emacs-lisp
+  ;; Pacote para garantir que as variáveis de ambiente do usuário sejam as mesmas das do EMACS
+    (use-package exec-path-from-shell
+      :ensure t)
+#+end_src
+
 <<atalhos>>
 #+begin_src emacs-lisp
   ;; Atalhos de teclado
   (global-set-key (kbd "M-o") 'ace-window)
   (global-set-key (kbd "C-S-x") 'vterm)
+  (global-set-key (kbd "C-M-g") 'compile)
 #+end_src

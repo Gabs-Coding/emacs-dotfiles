@@ -11,6 +11,7 @@ config.el
 recentf
 .\#*
 smex-items
+.dap-breakpoints
 
 # Pastas ignoradas
 elpa/

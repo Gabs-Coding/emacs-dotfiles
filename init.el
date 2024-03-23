@@ -12,6 +12,9 @@
 ;;	     '("melpa3" . "http://www.mirrorservice.org/sites/stable.melpa.org/packages/"))
 (package-initialize)
 
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -38,7 +41,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(objed-cursor-color "#ea3d54")
  '(package-selected-packages
-   '(auto-complete all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
+   '(helm arduino-mode exec-path-from-shell ccls lsp-mode lsp-ui org-projectile org-projectile-helm dap-mode auto-complete all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
  '(pdf-view-midnight-colors (cons "#cbccd1" "#1c1d20"))
  '(red "#ffffff")
  '(rustic-ansi-faces

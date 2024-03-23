@@ -289,7 +289,7 @@
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :init
-    (setq lsp-auto-guess-root nil)
+    (setq lsp-auto-guess-root t)
     :hook (c-mode . lsp)
     (c++-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration)

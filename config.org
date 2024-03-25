@@ -229,10 +229,8 @@
 <<pdf-tools>>
 #+begin_src emacs-lisp
   ;; Ferramentas para PDF's
-  (use-package pdf-tools
-    :ensure t)
-
-  (require 'pdf-tools)
+  (pdf-tools-install)
+  (pdf-loader-install)
 #+end_src
 
 <<all-the-icons>>

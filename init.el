@@ -1,6 +1,34 @@
 ;;; package -- Summary
 ;;; Commentary: essa é minha (gabs-coding) configuração pessoal
 ;;; Code:
+
+;;;;; Startup optimizations
+
+;;;;;; Set garbage collection threshold
+
+;; From https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
+
+(setq gc-cons-threshold-original gc-cons-threshold)
+(setq gc-cons-threshold (* 1024 1024 100))
+
+;;;;;; Set file-name-handler-alist
+
+;; Also from https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
+
+(setq file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+;;;;;; Set deferred timer to reset them
+
+(run-with-idle-timer
+ 5 nil
+ (lambda ()
+   (setq gc-cons-threshold gc-cons-threshold-original)
+   (setq file-name-handler-alist file-name-handler-alist-original)
+   (makunbound 'gc-cons-threshold-original)
+   (makunbound 'file-name-handler-alist-original)
+   (message "gc-cons-threshold and file-name-handler-alist restored")))
+
 (require 'package)
 
 (setq package-enable-at-startup nil)
@@ -41,7 +69,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(objed-cursor-color "#ea3d54")
  '(package-selected-packages
-   '(helm arduino-mode exec-path-from-shell ccls lsp-mode lsp-ui org-projectile org-projectile-helm dap-mode auto-complete all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
+   '(lsp-java highlight-doxygen helm arduino-mode exec-path-from-shell ccls lsp-mode lsp-ui org-projectile org-projectile-helm dap-mode auto-complete all-the-icons all-the-icons-dired all-the-icons-ivy beacon dired-hacks-utils dired-narrow dired-subtree ggtags hungry-delete multiple-cursors queue swiper undo-tree which-key cmake-mode yasnippet-snippets vterm vertico use-package spacemacs-theme solo-jazz-theme solarized-theme smex realgud projectile pdf-tools org-auto-tangle move-text modus-themes magit lsp-ivy impatient-mode iedit highlight-parentheses gruber-darker-theme flymake-flycheck flatui-theme eglot drag-stuff doom-themes company-box company-arduino checkbox auto-complete-c-headers ample-theme ahungry-theme ace-window ac-alchemist))
  '(pdf-view-midnight-colors (cons "#cbccd1" "#1c1d20"))
  '(red "#ffffff")
  '(rustic-ansi-faces

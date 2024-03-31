@@ -296,6 +296,14 @@
     :commands lsp-ui-mode)
 #+end_src
 
+<<lsp-java>>
+#+begin_src emacs-lisp
+  (use-package lsp-java
+    :ensure t)
+  (require 'lsp-java)
+  (add-hook 'java-mode-hook #'lsp)
+#+end_src
+
 #+begin_src emacs-lisp
   (require 'dap-lldb)
 #+end_src
@@ -310,6 +318,13 @@
   ;; Pacote para garantir que as variáveis de ambiente do usuário sejam as mesmas das do EMACS
     (use-package exec-path-from-shell
       :ensure t)
+#+end_src
+
+<<highlight-doxygen>>
+#+begin_src emacs-lisp
+  (use-package highlight-doxygen
+    :ensure t)
+  (highlight-doxygen-global-mode 1)
 #+end_src
 
 <<atalhos>>

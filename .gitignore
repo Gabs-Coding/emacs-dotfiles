@@ -12,6 +12,8 @@ recentf
 .\#*
 smex-items
 .dap-breakpoints
+.org-id-locations
+eclipse*
 
 # Pastas ignoradas
 elpa/

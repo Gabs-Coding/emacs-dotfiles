@@ -14,6 +14,8 @@ smex-items
 .dap-breakpoints
 .org-id-locations
 eclipse*
+.sqls.org
+projectile-bookmarks.eld
 
 # Pastas ignoradas
 elpa/
@@ -24,3 +26,5 @@ tramp/
 eshell/
 .extension/
 .lsp*
+straight/
+workspace/

@@ -42,6 +42,44 @@
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
+<<helm>>
+#+begin_src emacs-lisp
+  (use-package helm
+    :straight t
+    :config
+    (helm-mode))
+#+end_src
+
+<<helm-lsp>>
+#+begin_src emacs-lisp
+    (use-package helm-lsp
+      :straight t)
+    (define-key lsp-mode-map [remap xref-find-apropos] #'helm-lsp-workspace-symbol)
+#+end_src
+
+<<hydra>>
+#+begin_src emacs-lisp
+  (use-package hydra)
+#+end_src
+
+<<projectile>>
+#+begin_src emacs-lisp
+  (use-package projectile
+      :ensure t
+      :init (projectile-mode +1)
+      :config
+      (define-key
+	  projectile-mode-map
+	  (kbd "C-c p")
+	'projectile-command-map))
+#+end_src
+
+<<magit>>
+#+begin_src emacs-lisp
+  (use-package magit
+    :straight t)
+#+end_src
+
 <<Which-Key>>
 #+begin_src emacs-lisp
   (use-package which-key
@@ -291,6 +329,11 @@
     :hook (c-mode . lsp)
     (c++-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration)
+    :commands lsp
+    :hook (java-mode . lsp-deffered)
+    (java-mode . lsp)
+    (lsp-mode . lsp-enable-which-key-integration)
+    :config (add-hook 'java-mode-hook 'lsp)
     :commands lsp)
   (use-package lsp-ui
     :commands lsp-ui-mode)
@@ -302,15 +345,27 @@
     :ensure t)
   (require 'lsp-java)
   (add-hook 'java-mode-hook #'lsp)
+  (setq lsp-java-format-on-type-enabled nil) ;; Desabilita a indentação automática nos projetos java.
+  (setq lsp-enable-on-type-formatting nil) ;; Desabilita a indentação automática globalmente.
+#+end_src
+
+<<lsp-treemacs>>
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs)
 #+end_src
 
 #+begin_src emacs-lisp
   (require 'dap-lldb)
+  (use-package dap-mode
+    :after lsp-mode
+    :config (dap-auto-configure-mode))
+  (use-package dap-java
+    :ensure nil)
 #+end_src
 
 <<Smex>>
 #+begin_src emacs-lisp
-  (smex-initialize) ;;
+  (smex-initialize)
 #+end_src
 
 <<exec-path-from-shell>>
